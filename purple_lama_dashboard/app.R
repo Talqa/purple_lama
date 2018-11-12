@@ -21,6 +21,7 @@ filepath <- '../Fortnite_tweets_test.csv'
 data <- read_csv(filepath)
 #View(data)
 cleaned_words <- read_csv('../Fortnite_clean_words_test.csv')
+by_platform <- read_csv('../Fortnite_words_by_plat_test.csv')
 
 ##HEADER------------------------------------------------------------------------------
 header <- dashboardHeader(
@@ -58,6 +59,10 @@ sidebar <- dashboardSidebar(
     menuItem('Plots',
       tabName = 'plots',
       icon = icon('chart-bar', 'font-awesome')
+    ),
+    menuItem('Plots2',
+             tabName = 'plots2',
+             icon = icon('chart-bar', 'font-awesome')
     ),
     menuItem('Tables',
              tabName = 'tables',
@@ -103,6 +108,10 @@ body <- dashboardBody(
             #'I see where lamas are.',
             plotOutput('plot')
             ),
+    tabItem(tabName = 'plots2',
+            #'I see where lamas are.',
+            plotOutput('plot2')
+    ),
     tabItem(tabName = 'tables',
             'HERE BE LAMAS!',
             #textOutput(outputId = 'platform_select'),
@@ -184,7 +193,6 @@ server <- function(input, output, session) {
   #                     })
   
   output$plot <- renderPlot({
-    cleaned_words <- cleaned_words
     ggplot(subset(cleaned_words, n > 10), aes(reorder(word, n), n)) +
       geom_point(size = 5, colour = 'purple') +
       #  geom_col() +
@@ -195,6 +203,20 @@ server <- function(input, output, session) {
       labs(title = 'Frequency of words in tweets about Fortnite')
   }, height = 900,
       width = 600)
+  
+  output$plot2 <- renderPlot({
+    ggplot(subset(by_platform, n > 12), aes(reorder(word, n), n)) +
+      geom_point(size = 5, colour = 'purple') +
+      facet_wrap(~ source, scales = 'free') +
+      #  geom_col() +
+      xlab(NULL) +
+      theme_bw() +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+      coord_flip() +
+      theme(strip.background = element_blank()) +
+      labs(title = 'Words in tweets about Fortnite by platform')
+  }, height = 700,
+  width = 700)
   
   #messages generated from file
   # output$msg_menu <- renderMenu({
