@@ -29,7 +29,8 @@ cleaned_words <- tweet_words %>%
   arrange(desc(n))
 
 View(cleaned_words)
-
+#save in csv
+write_csv(cleaned_words, 'Fortnite_clean_words_test.csv')
 
 #plot
 ggplot(subset(cleaned_words, n > 10), aes(reorder(word, n), n)) +

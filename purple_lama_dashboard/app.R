@@ -20,33 +20,34 @@ library('leaflet')
 filepath <- '../Fortnite_tweets_test.csv'
 data <- read_csv(filepath)
 #View(data)
+cleaned_words <- read_csv('../Fortnite_clean_words_test.csv')
 
 ##HEADER------------------------------------------------------------------------------
 header <- dashboardHeader(
-  dropdownMenu(
-    #types: 'messages', 'tasks', 'notifications'
-    type = 'messages',
-    messageItem(
-      from = 'Talqa',
-      message = 'Find lamas here!',
-      href = 'https://twitter.com/epicgames'
-    )
-  ),
-  dropdownMenu(
-    type = 'notifications',
-    notificationItem(
-        text = 'I see lamas!'
-    )
-  ),
-  dropdownMenu(
-    type = 'tasks',
-    taskItem(
-      text = 'Hunting lamas...',
-      value = 5
-    )
-  )
-  #menu for messages from file
-  #dropdownMenuOutput("msg_menu")
+  # dropdownMenu(
+  #   #types: 'messages', 'tasks', 'notifications'
+  #   type = 'messages',
+  #   messageItem(
+  #     from = 'Talqa',
+  #     message = 'Find lamas here!',
+  #     href = 'https://twitter.com/epicgames'
+  #   )
+  # ),
+  # dropdownMenu(
+  #   type = 'notifications',
+  #   notificationItem(
+  #       text = 'I see lamas!'
+  #   )
+  # ),
+  # dropdownMenu(
+  #   type = 'tasks',
+  #   taskItem(
+  #     text = 'Hunting lamas...',
+  #     value = 5
+  #   )
+  # )
+  # #menu for messages from file
+  # #dropdownMenuOutput("msg_menu")
   
 )
 
@@ -54,36 +55,36 @@ header <- dashboardHeader(
 sidebar <- dashboardSidebar(
   sidebarMenu(
     #tabs
-    menuItem('Where to find lamas',
-      tabName = 'map',
-      icon = icon('map', 'font-awesome')
+    menuItem('Plots',
+      tabName = 'plots',
+      icon = icon('chart-bar', 'font-awesome')
     ),
-    menuItem('Lamas',
-             tabName = 'lamas',
-             icon = icon('paw', 'font-awesome')
-    ),
-    menuItem('My lama farm',
-             tabName = 'farm',
-             icon = icon('trophy', 'font-awesome')
-    )
-  ),
+    menuItem('Tables',
+             tabName = 'tables',
+             icon = icon('align-justify', 'font-awesome')
+    )#,
+  #   menuItem('My lama farm',
+  #            tabName = 'farm',
+  #            icon = icon('trophy', 'font-awesome')
+  #   )
+   ),
   
-  hr(),
+  hr()#,
   #selection based on data
-  selectInput(inputId = 'platform_select',
-              label = 'Lama hunters',
-              choices = data$source #CONNECT THIS TO REACTIVE DATA SOURCE!!!
-  ),
+  # selectInput(inputId = 'platform_select',
+  #             label = 'Lama hunters',
+  #             choices = data$source #CONNECT THIS TO REACTIVE DATA SOURCE!!!
+  # )#,
   #slider
-  sliderInput(inputId = 'platform_limit',
-              label = 'How many?',
-              min = 0,
-              max = 50,
-              value = 15
-  ),
-  actionButton('click',
-               'Get Lama'
-  )
+  # sliderInput(inputId = 'platform_limit',
+  #             label = 'How many?',
+  #             min = 0,
+  #             max = 50,
+  #             value = 15
+  # ),
+  # actionButton('click',
+  #              'Get Lama'
+  # )
 )
 
 ##BODY--------------------------------------------------------------------------------
@@ -98,55 +99,55 @@ body <- dashboardBody(
     )
   ),
   tabItems(
-    tabItem(tabName = 'map',
-            'I see where lamas are.',
-            leafletOutput('plot')
+    tabItem(tabName = 'plots',
+            #'I see where lamas are.',
+            plotOutput('plot')
             ),
-    tabItem(tabName = 'lamas',
+    tabItem(tabName = 'tables',
             'HERE BE LAMAS!',
-            textOutput(outputId = 'platform_select'),
+            #textOutput(outputId = 'platform_select'),
             tableOutput('table')
-            ),
-    tabItem(tabName = 'farm',
-            fluidRow(
-              tabBox(
-                width = 12,
-                title = 'My lama collection.',
-                tabPanel('Lama 1'),
-                tabPanel('Lama 2')
-                )),
-            fluidRow(
-              column(width = 6,
-                valueBox(
-                  width = NULL,
-                  value = length(data$text),
-                  subtitle = 'All Lamas',
-                  color = 'purple',
-                  icon = icon(name = 'globe', lib = 'font-awesome')
-              )),
-              column(width = 6,
-                valueBox(
-                  width = NULL,
-                  value = length(unique(data$user_id)),
-                  subtitle = 'Lama hunters',
-                  color = 'purple',
-                  icon = icon(name = 'gamepad', lib = 'font-awesome')
-                )
-              )
-              ),
-            fluidRow(
-              valueBoxOutput('click_box', width = 6),
-              column(width = 6,
-                infoBox(
-                  width = NULL,
-                  color = 'purple',
-                  title = 'HUNTING LAMAS...',
-                  subtitle = 'Get them all!'
-                )
-              )
-            )
+            )#,
+    # tabItem(tabName = 'farm',
+    #         fluidRow(
+    #           tabBox(
+    #             width = 12,
+    #             title = 'My lama collection.',
+    #             tabPanel('Lama 1'),
+    #             tabPanel('Lama 2')
+    #             )),
+    #         fluidRow(
+    #           column(width = 6,
+    #             valueBox(
+    #               width = NULL,
+    #               value = length(data$text),
+    #               subtitle = 'All Lamas',
+    #               color = 'purple',
+    #               icon = icon(name = 'globe', lib = 'font-awesome')
+    #           )),
+    #           column(width = 6,
+    #             valueBox(
+    #               width = NULL,
+    #               value = length(unique(data$user_id)),
+    #               subtitle = 'Lama hunters',
+    #               color = 'purple',
+    #               icon = icon(name = 'gamepad', lib = 'font-awesome')
+    #             )
+    #           )
+    #           ),
+    #         fluidRow(
+    #           valueBoxOutput('click_box', width = 6),
+    #           column(width = 6,
+    #             infoBox(
+    #               width = NULL,
+    #               color = 'purple',
+    #               title = 'HUNTING LAMAS...',
+    #               subtitle = 'Get them all!'
+    #             )
+    #         )
+    #        )
             
-            )
+    #        )
   )
 )
 
@@ -158,37 +159,42 @@ ui <- dashboardPage(skin = 'purple',
 
 ##SERVER-----------------------------------------------------------------------------
 server <- function(input, output, session) {
-  reactive_twitter_data <- reactiveFileReader(intervalMillis = 60000,
-                                              session = session,
-                                              filePath = filepath,
-                                              readFunc = read_csv
-                                              )
+  # reactive_twitter_data <- reactiveFileReader(intervalMillis = 60000,
+  #                                             session = session,
+  #                                             filePath = filepath,
+  #                                             readFunc = read_csv
+  #                                             )
   
   output$platform_select <- renderText({
                                 input$platform_select
                             })
   
-  output$table <- renderTable({ 
-                      data <- reactive_twitter_data()
-                      selection <- data[data$source <= input$platform_select, ]
+  output$table <- renderTable({
+                      data <- cleaned_words
+                      #data <- reactive_twitter_data()
+                      #selection <- data[data$source <= input$platform_select, ]
                   })
   
-  output$click_box <- renderValueBox({
-                          valueBox(value = input$click,
-                                   subtitle = 'Lamas caught!',
-                                   color = if( input$click < input$platform_limit) { 'purple'} else { 'fuchsia' },
-                                   icon = icon(name = 'paw', lib = 'font-awesome')
-                          )
-                      })
+  # output$click_box <- renderValueBox({
+  #                         valueBox(value = input$click,
+  #                                  subtitle = 'Lamas caught!',
+  #                                  color = if( input$click < input$platform_limit) { 'purple'} else { 'fuchsia' },
+  #                                  icon = icon(name = 'paw', lib = 'font-awesome')
+  #                         )
+  #                     })
   
-  output$plot <- renderLeaflet({
-                      leaflet() %>% 
-                        addTiles() #%>% 
-                        # addMarkers(
-                        #   lng = 0, #split geo_coords to get this,
-                        #   lat = 0 #split geo_coords to get this
-                        #)
-  })
+  output$plot <- renderPlot({
+    cleaned_words <- cleaned_words
+    ggplot(subset(cleaned_words, n > 10), aes(reorder(word, n), n)) +
+      geom_point(size = 5, colour = 'purple') +
+      #  geom_col() +
+      xlab(NULL) +
+      theme_bw() +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+      coord_flip() +
+      labs(title = 'Frequency of words in tweets about Fortnite')
+  }, height = 900,
+      width = 600)
   
   #messages generated from file
   # output$msg_menu <- renderMenu({
