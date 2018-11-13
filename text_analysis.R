@@ -67,4 +67,20 @@ ggplot(subset(by_platform, n > 12), aes(reorder(word, n), n)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_flip()
 
+#try out sentiment analysis based on lexicons
+by_platform_sentiment <- by_platform %>% 
+  inner_join(get_sentiments('afinn')) %>% 
+  group_by(source) %>% 
+  summarise(sentiment = sum(score))
 
+View(by_platform_sentiment)
+
+#plot
+ggplot(by_platform_sentiment, aes(reorder(source, sentiment), sentiment)) +
+  geom_point(size = 5, colour = 'purple') +
+#  facet_wrap(~ source, scales = 'free') +
+  #  geom_col() +
+  xlab(NULL) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_flip()
