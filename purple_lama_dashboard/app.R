@@ -14,7 +14,8 @@
 library('shiny')
 library('shinydashboard')
 library('tidyverse')
-library('leaflet')
+#library('leaflet')
+library('wordcloud')
 
 ##DATA--------------------------------------------------------------------------------
 filepath <- '../Fortnite_tweets_test.csv'
@@ -56,6 +57,10 @@ header <- dashboardHeader(
 sidebar <- dashboardSidebar(
   sidebarMenu(
     #tabs
+    menuItem('Welcome',
+             tabName = 'initial',
+             icon = icon('atom', 'font-awesome')
+    ),
     menuItem('Plots',
       tabName = 'plots',
       icon = icon('chart-bar', 'font-awesome')
@@ -104,12 +109,14 @@ body <- dashboardBody(
     )
   ),
   tabItems(
+    tabItem(tabName = 'initial',
+            'Welcome to Fortnite Twitter cloud',
+            plotOutput('welcome')
+    ),
     tabItem(tabName = 'plots',
-            #'I see where lamas are.',
             plotOutput('plot')
             ),
     tabItem(tabName = 'plots2',
-            #'I see where lamas are.',
             plotOutput('plot2')
     ),
     tabItem(tabName = 'tables',
@@ -191,6 +198,16 @@ server <- function(input, output, session) {
   #                                  icon = icon(name = 'paw', lib = 'font-awesome')
   #                         )
   #                     })
+  
+  output$welcome <- renderPlot({
+    wordcloud(words= cleaned_words$word, freq= cleaned_words$n,  
+              min.freq= 3, 
+              random.order= FALSE, 
+              random.color = TRUE,
+              scale = c(5, 1.1),
+              colors= brewer.pal(8, "Set1"))
+  }, height = 700,
+  width = 700)
   
   output$plot <- renderPlot({
     ggplot(subset(cleaned_words, n > 10), aes(reorder(word, n), n)) +

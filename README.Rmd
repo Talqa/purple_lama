@@ -8,3 +8,9 @@ Notes and references:
     - article: http://opiateforthemass.es/articles/emoji-analysis/  
     - github: https://github.com/today-is-a-good-day/emojis  
     
+    - https://stackoverflow.com/questions/37999896/twitter-emoji-encoding-problems-with-twitter-and-r
+    
+- emoji sentiment analysis:  
+    - https://www.r-bloggers.com/emojis-analysis-in-r/  
+    - https://www.clarin.si/repository/xmlui/handle/11356/1048  
+    
