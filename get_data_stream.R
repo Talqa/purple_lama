@@ -9,21 +9,22 @@ query <- 'fortnite, fortniteBR, FORTNITE, Fortnite, FortniteBattleRoyale'
 #streamtime in seconds
 #streamtime <- 3 * 60 #3min
 #streamtime <- 3 * 60 * 60 #3h
-streamtime <- 12 * 60 * 60 #12h
+streamtime <- 6 * 60 * 60 #6h
+#streamtime <- 12 * 60 * 60 #12h
 #streamtime <- 60L * 60L * 24L * 7L * 2L #two weeks
 
 #set file name
-#filename <- 'data/fortnite.json'
+filename <- 'data/fortnite.json'
 
 #rate_limits <- rate_limit()
 #----------------------------------------------------------------------------------------------------------------------------------------
 
 #stream data to file---------------------------------------------------------------------------------------------------------------------
-stream_tweets2(
+stream_tweets(
   q = query,
   parse = FALSE,
   timeout = streamtime,
-  dir = "data/fortnite"
+  file_name = 'data/fortnite.json'
 )
 
 
