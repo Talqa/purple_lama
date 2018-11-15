@@ -1,0 +1,10 @@
+## Purple lama
+
+This is a little project where I want to learn to work with Twitter API and text analysis.  
+
+Notes and references:  
+
+- emoji pre-processing: 
+    - article: http://opiateforthemass.es/articles/emoji-analysis/  
+    - github: https://github.com/today-is-a-good-day/emojis  
+    
